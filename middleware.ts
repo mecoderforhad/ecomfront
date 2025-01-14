@@ -8,8 +8,9 @@ export default auth((req) => {
  const { nextUrl } = req;
 
  const isAuthenticated = !!req.auth;
- const isPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
 
+ const isPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
+ 
  if (isPublicRoute && isAuthenticated)
   return Response.redirect(new URL(DEFAULT_REDIRECT, nextUrl));
 

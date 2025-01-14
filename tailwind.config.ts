@@ -1,10 +1,14 @@
 import type { Config } from "tailwindcss";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const flowbite = require("flowbite-react/tailwind");
 
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./core/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    flowbite.content(),
   ],
   theme: {
     extend: {
@@ -14,5 +18,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [flowbite.plugin(),],
 } satisfies Config;
