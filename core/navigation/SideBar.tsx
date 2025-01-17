@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
@@ -39,7 +41,7 @@ const SideBar = () => {
   ];
 
   return (
-    <section className="flex gap-6">
+    <section>
       <HiMenuAlt3
         size={26}
         className="cursor-pointer md:hidden"
@@ -73,8 +75,8 @@ const SideBar = () => {
             <div 
               key={i} 
               className="relative group"
-              onMouseEnter={() => setExpandedMenu(menu.name)}
-              onMouseLeave={() => setExpandedMenu(null)}
+              onMouseEnter={() => !open && setExpandedMenu(menu.name)}
+              onMouseLeave={() => !open && setExpandedMenu(null)}
             >
               <div
                 className="flex items-center justify-between gap-3.5 px-4 py-2 hover:bg-slate-800 cursor-pointer"
@@ -111,8 +113,8 @@ const SideBar = () => {
                     <div 
                       key={j} 
                       className="group relative"
-                      onMouseEnter={() => setExpandedSubMenu(subMenu.name)}
-                      onMouseLeave={() => setExpandedSubMenu(null)}
+                      onMouseEnter={() => !open && setExpandedSubMenu(subMenu.name)}
+                      onMouseLeave={() => !open && setExpandedSubMenu(null)}
                     >
                       <div
                         className="flex justify-between items-center px-4 py-2 hover:bg-slate-600 cursor-pointer"
@@ -172,11 +174,6 @@ const SideBar = () => {
           onClick={() => setShowSidebar(false)}
         ></div>
       )}
-
-      {/* Main Content */}
-      <div className="m-3 text-xl text-gray-900 font-semibold">
-        REACT TAILWIND
-      </div>
     </section>
   );
 };
