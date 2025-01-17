@@ -15,7 +15,7 @@ const Signin = () => {
 
   useEffect(() => {
     if (session) {
-      const redirectTo = "/";
+      const redirectTo = "/dashboard";
       router.push(redirectTo);
     }
   }, [session, router]);
