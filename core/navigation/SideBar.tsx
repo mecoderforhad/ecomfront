@@ -1,40 +1,184 @@
+import React, { useState } from "react";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { MdOutlineDashboard } from "react-icons/md";
+import { RiSettings4Line } from "react-icons/ri";
+import { TbReportAnalytics } from "react-icons/tb";
+import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+import { FiMessageSquare, FiFolder, FiShoppingCart, FiChevronRight, FiChevronDown } from "react-icons/fi";
 
-"use client";
+const SideBar = () => {
+  const [open, setOpen] = useState(true); // For large screen toggle
+  const [showSidebar, setShowSidebar] = useState(true); // For small screen toggle
+  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
+  const [expandedSubMenu, setExpandedSubMenu] = useState<string | null>(null);
 
-import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser } from "react-icons/hi";
+  const menus = [
+    { name: "Dashboard", link: "/", icon: MdOutlineDashboard },
+    { name: "User", link: "/", icon: AiOutlineUser },
+    {
+      name: "Messages",
+      link: "/",
+      icon: FiMessageSquare,
+      subMenu: [
+        {
+          name: "Inbox",
+          link: "/",
+          subSubMenu: [
+            { name: "Unread", link: "/" },
+            { name: "Archived", link: "/" },
+          ],
+        },
+        { name: "Sent", link: "/" },
+      ],
+    },
+    { name: "Analytics", link: "/", icon: TbReportAnalytics },
+    { name: "File Manager", link: "/", icon: FiFolder },
+    { name: "Cart", link: "/", icon: FiShoppingCart },
+    { name: "Saved", link: "/", icon: AiOutlineHeart },
+    { name: "Setting", link: "/", icon: RiSettings4Line },
+  ];
 
-export function SideBar() {
   return (
-    <Sidebar aria-label="Sidebar with multi-level dropdown example">
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item href="#" icon={HiChartPie}>
-            Dashboard
-          </Sidebar.Item>
-          <Sidebar.Collapse icon={HiShoppingBag} label="E-commerce">
-            <Sidebar.Item href="#">Products</Sidebar.Item>
-            <Sidebar.Item href="#">Sales</Sidebar.Item>
-            <Sidebar.Item href="#">Refunds</Sidebar.Item>
-            <Sidebar.Item href="#">Shipping</Sidebar.Item>
-          </Sidebar.Collapse>
-          <Sidebar.Item href="#" icon={HiInbox}>
-            Inbox
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiUser}>
-            Users
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiShoppingBag}>
-            Products
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiArrowSmRight}>
-            Sign In
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiTable}>
-            Sign Up
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
-    </Sidebar>
+    <section className="flex gap-6">
+      <HiMenuAlt3
+        size={26}
+        className="cursor-pointer md:hidden"
+        onClick={() => setShowSidebar(!showSidebar)}
+      />
+
+      {/* Sidebar */}
+      <div
+        className={`bg-slate-900 min-h-screen ${
+          open ? "w-60" : "w-14"
+        } md:relative md:static ${
+          showSidebar ? "fixed z-50" : "hidden"
+        } md:block duration-500 text-gray-100`}
+      >
+        {/* Sidebar Toggle Button */}
+        <div
+          className={`py-3 flex ${
+            open ? "justify-end m-2" : "justify-center m-2"
+          }`}
+        >
+          <HiMenuAlt3
+            size={26}
+            className="cursor-pointer hidden md:block"
+            onClick={() => setOpen(!open)}
+          />
+        </div>
+
+        {/* Sidebar Menu */}
+        <div className="mt-4 flex flex-col gap-4 relative">
+          {menus.map((menu, i) => (
+            <div 
+              key={i} 
+              className="relative group"
+              onMouseEnter={() => setExpandedMenu(menu.name)}
+              onMouseLeave={() => setExpandedMenu(null)}
+            >
+              <div
+                className="flex items-center justify-between gap-3.5 px-4 py-2 hover:bg-slate-800 cursor-pointer"
+                onClick={() =>
+                  setExpandedMenu(expandedMenu === menu.name ? null : menu.name)
+                }
+              >
+                <div className="flex items-center gap-3.5">
+                  {React.createElement(menu.icon, { size: "26" })}
+                  <h2
+                    style={{
+                      transitionDelay: `${i + 3}00ms`,
+                    }}
+                    className={`whitespace-pre text-base duration-500 ${
+                      !open && "opacity-0 translate-x-28 overflow-hidden"
+                    }`}
+                  >
+                    {menu.name}
+                  </h2>
+                </div>
+                {menu.subMenu && (
+                  expandedMenu === menu.name ? (
+                    <FiChevronDown />
+                  ) : (
+                    <FiChevronRight />
+                  )
+                )}
+              </div>
+
+              {/* SubMenu */}
+              {menu.subMenu && expandedMenu === menu.name && (
+                <div className={`bg-slate-800 text-white shadow-lg ${!open && 'absolute left-full top-0'}`}>
+                  {menu.subMenu.map((subMenu, j) => (
+                    <div 
+                      key={j} 
+                      className="group relative"
+                      onMouseEnter={() => setExpandedSubMenu(subMenu.name)}
+                      onMouseLeave={() => setExpandedSubMenu(null)}
+                    >
+                      <div
+                        className="flex justify-between items-center px-4 py-2 hover:bg-slate-600 cursor-pointer"
+                        onClick={() =>
+                          setExpandedSubMenu(
+                            expandedSubMenu === subMenu.name
+                              ? null
+                              : subMenu.name
+                          )
+                        }
+                      >
+                        <span>{subMenu.name}</span>
+                        {subMenu.subSubMenu && (
+                          expandedSubMenu === subMenu.name ? (
+                            <FiChevronDown />
+                          ) : (
+                            <FiChevronRight />
+                          )
+                        )}
+                      </div>
+
+                      {/* SubSubMenu */}
+                      {subMenu.subSubMenu &&
+                        expandedSubMenu === subMenu.name && (
+                          <div className={`bg-slate-700 text-white shadow-lg ${!open && 'absolute left-full top-0'}`}>
+                            {subMenu.subSubMenu.map((subSubMenu, k) => (
+                              <a
+                                key={k}
+                                href={subSubMenu.link}
+                                className="block px-4 py-2 hover:bg-slate-600"
+                              >
+                                {subSubMenu.name}
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Show main menu name on hover if there is no sub-menu */}
+              {!menu.subMenu && !open && (
+                <div className="absolute left-full top-0 bg-slate-800 px-4 py-2 text-white shadow-lg group-hover:block hidden">
+                  {menu.name}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sidebar Backdrop for Small Screens */}
+      {showSidebar && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setShowSidebar(false)}
+        ></div>
+      )}
+
+      {/* Main Content */}
+      <div className="m-3 text-xl text-gray-900 font-semibold">
+        REACT TAILWIND
+      </div>
+    </section>
   );
-}
+};
+
+export default SideBar;

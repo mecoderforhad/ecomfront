@@ -2,8 +2,8 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import { SideBar } from "../navigation/SideBar";
 import { TopNavBar } from "../navigation/TopNavbar";
+import SideBar from "../navigation/SideBar";
 
 export default function MainLayout({
   children,
