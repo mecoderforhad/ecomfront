@@ -7,7 +7,7 @@ import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { FiMessageSquare, FiFolder, FiShoppingCart, FiChevronRight, FiChevronDown } from "react-icons/fi";
 
 const SideBar = () => {
-  const [open, setOpen] = useState(true); // For large screen toggle
+  const [open, setOpen] = useState(false); // For large screen toggle
   const [showSidebar, setShowSidebar] = useState(true); // For small screen toggle
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const [expandedSubMenu, setExpandedSubMenu] = useState<string | null>(null);
