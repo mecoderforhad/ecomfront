@@ -127,9 +127,9 @@ const SideBar = () => {
                         <span>{subMenu.name}</span>
                         {subMenu.subSubMenu && (
                           expandedSubMenu === subMenu.name ? (
-                            <FiChevronDown />
+                            <FiChevronDown className="mx-1"/>
                           ) : (
-                            <FiChevronRight />
+                            <FiChevronRight className="mx-1" />
                           )
                         )}
                       </div>
