@@ -1,5 +1,5 @@
-import SideBar from "@/core/navigation/SideBar";
-import { TopNavBar } from "@/core/navigation/TopNavbar";
+import SideBar from "@/components/custom/navigation/SideBar";
+import { TopNavBar } from "@/components/custom/navigation/TopNavbar";
 import React from "react";
 
 export default function MainLayout({
@@ -12,7 +12,7 @@ export default function MainLayout({
       <TopNavBar />
       <div className="flex min-h-screen">
         <SideBar />
-        <div className="mx-auto flex w-full grow gap-5 p-5">
+        <div className="flex-1 p-5">
           {children}
         </div>
       </div>

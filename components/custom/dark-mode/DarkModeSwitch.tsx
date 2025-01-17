@@ -1,6 +1,6 @@
 "use client";
 
-import MaterialIcon from "@/components/icon/MaterialIcon";
+import MaterialIcon from "@/components/ui/icon/MaterialIcon";
 import { useThemeMode } from "flowbite-react";
 import { useEffect, useState } from "react";
 
