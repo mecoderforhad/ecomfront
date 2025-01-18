@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
@@ -6,7 +6,13 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart, FiChevronRight, FiChevronDown } from "react-icons/fi";
+import {
+  FiMessageSquare,
+  FiFolder,
+  FiShoppingCart,
+  FiChevronRight,
+  FiChevronDown,
+} from "react-icons/fi";
 
 const SideBar = () => {
   const [open, setOpen] = useState(false); // For large screen toggle
@@ -41,7 +47,7 @@ const SideBar = () => {
   ];
 
   return (
-    <section>
+    <>
       <HiMenuAlt3
         size={26}
         className="cursor-pointer md:hidden"
@@ -72,48 +78,53 @@ const SideBar = () => {
         {/* Sidebar Menu */}
         <div className="mt-4 flex flex-col gap-4 relative">
           {menus.map((menu, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="relative group"
               onMouseEnter={() => !open && setExpandedMenu(menu.name)}
               onMouseLeave={() => !open && setExpandedMenu(null)}
             >
               <div
-                className="flex items-center justify-between gap-3.5 px-4 py-2 hover:bg-slate-800 cursor-pointer"
+                className="flex items-center justify-start gap-3.5 px-4 py-2 hover:bg-slate-800 cursor-pointer"
                 onClick={() =>
                   setExpandedMenu(expandedMenu === menu.name ? null : menu.name)
                 }
               >
                 <div className="flex items-center gap-3.5">
                   {React.createElement(menu.icon, { size: "26" })}
-                  <h2
-                    style={{
-                      transitionDelay: `${i + 3}00ms`,
-                    }}
-                    className={`whitespace-pre text-base duration-500 ${
-                      !open && "opacity-0 translate-x-28 overflow-hidden"
-                    }`}
-                  >
-                    {menu.name}
-                  </h2>
                 </div>
-                {menu.subMenu && (
-                  expandedMenu === menu.name ? (
+                <h2
+                  style={{
+                    transitionDelay: `${i + 3}00ms`,
+                  }}
+                  className={`whitespace-pre text-base duration-500 ${
+                    !open && "opacity-0 translate-x-28 overflow-hidden"
+                  }`}
+                >
+                  {menu.name}
+                </h2>
+                {menu.subMenu &&
+                  (expandedMenu === menu.name ? (
                     <FiChevronDown />
                   ) : (
                     <FiChevronRight />
-                  )
-                )}
+                  ))}
               </div>
 
               {/* SubMenu */}
               {menu.subMenu && expandedMenu === menu.name && (
-                <div className={`bg-slate-800 text-white shadow-lg ${!open && 'absolute left-full top-0'}`}>
+                <div
+                  className={`bg-slate-800 text-white shadow-lg ${
+                    !open && "absolute left-full top-0"
+                  }`}
+                >
                   {menu.subMenu.map((subMenu, j) => (
-                    <div 
-                      key={j} 
+                    <div
+                      key={j}
                       className="group relative"
-                      onMouseEnter={() => !open && setExpandedSubMenu(subMenu.name)}
+                      onMouseEnter={() =>
+                        !open && setExpandedSubMenu(subMenu.name)
+                      }
                       onMouseLeave={() => !open && setExpandedSubMenu(null)}
                     >
                       <div
@@ -127,19 +138,22 @@ const SideBar = () => {
                         }
                       >
                         <span>{subMenu.name}</span>
-                        {subMenu.subSubMenu && (
-                          expandedSubMenu === subMenu.name ? (
-                            <FiChevronDown className="mx-1"/>
+                        {subMenu.subSubMenu &&
+                          (expandedSubMenu === subMenu.name ? (
+                            <FiChevronDown className="mx-1" />
                           ) : (
                             <FiChevronRight className="mx-1" />
-                          )
-                        )}
+                          ))}
                       </div>
 
                       {/* SubSubMenu */}
                       {subMenu.subSubMenu &&
                         expandedSubMenu === subMenu.name && (
-                          <div className={`bg-slate-700 text-white shadow-lg ${!open && 'absolute left-full top-0'}`}>
+                          <div
+                            className={`bg-slate-700 text-white shadow-lg ${
+                              !open && "absolute left-full top-0"
+                            }`}
+                          >
                             {subMenu.subSubMenu.map((subSubMenu, k) => (
                               <a
                                 key={k}
@@ -174,7 +188,7 @@ const SideBar = () => {
           onClick={() => setShowSidebar(false)}
         ></div>
       )}
-    </section>
+    </>
   );
 };
 

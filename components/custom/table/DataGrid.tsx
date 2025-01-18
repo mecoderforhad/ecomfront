@@ -19,8 +19,8 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
   );
 
   return (
-    <Card>
-      <div className="overflow-x-auto">
+    <Card className="w-full">
+      <div>
         <Table hoverable>
           <Table.Head>
             <Table.HeadCell className="p-4">
@@ -42,7 +42,7 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
                 {headers.map((header, colIndex) => (
                   <Table.Cell
                     key={colIndex}
-                    className="whitespace-nowrap font-medium text-gray-900 dark:text-white"
+                    className="font-medium text-gray-900 dark:text-white"
                   >
                     {row[header]}
                   </Table.Cell>

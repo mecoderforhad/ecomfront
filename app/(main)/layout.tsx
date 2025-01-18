@@ -10,7 +10,7 @@ export default function MainLayout({
   return (
     <>
       <TopNavBar />
-      <div className="flex min-h-screen">
+      <div className="flex">
         <SideBar />
         <div className="flex-1 p-5">
           {children}

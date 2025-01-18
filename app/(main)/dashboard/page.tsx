@@ -1,7 +1,10 @@
 import DataGrid from "@/components/custom/table/DataGrid";
-import { data, headers } from "@/lib/data";
+import { headers } from "@/lib/data";
+import { serverApiCall } from "@/utils/serverApiCall";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const data = await serverApiCall("/products");
+  
   return (
     <>
       <DataGrid headers={headers} data={data} itemsPerPage={10} />
