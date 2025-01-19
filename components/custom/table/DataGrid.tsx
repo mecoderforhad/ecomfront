@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { Checkbox, Table, Pagination, Card } from "flowbite-react";
+import React, { useState, useCallback, ChangeEvent } from "react";
+import debounce from "lodash/debounce";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Card, Select, Table, Checkbox, Pagination } from "flowbite-react";
+import InputField from "@/components/ui/input/InputField";
 
 interface DataGridProps {
   headers: string[];
@@ -11,15 +14,50 @@ interface DataGridProps {
 
 const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const currentData = data.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  const debounceSearch = useCallback(
+    debounce((term: string, uniqueName: string) => {
+      const params = new URLSearchParams(searchParams);
+      if (term) {
+        params.set(uniqueName, term);
+      } else {
+        params.delete(uniqueName);
+      }
+      replace(`${pathname}?${params.toString()}`);
+    }, 300),
+    [searchParams, pathname, replace]
+  );
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    debounceSearch(e.target.value, "query");
+  };
+
+  const handleEntriesChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    debounceSearch(e.target.value, "entries");
+  };
+
   return (
     <Card className="w-full">
+      <div className="flex items-center justify-between gap-5 w-1/4">
+        <InputField
+          onChange={handleSearchChange}
+          defaultValue={searchParams.get("query")?.toString()}
+        />
+        <Select id="entries" onChange={handleEntriesChange}>
+          <option>10</option>
+          <option>20</option>
+          <option>30</option>
+          <option>40</option>
+        </Select>
+      </div>
       <div>
         <Table hoverable>
           <Table.Head>
