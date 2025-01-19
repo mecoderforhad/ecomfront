@@ -1,6 +1,7 @@
 import DataGrid from "@/components/custom/table/DataGrid";
 import { headers } from "@/lib/data";
 import { serverApiCall } from "@/utils/serverApiCall";
+import Actions from "../components/Actions";
 
 export default async function Dashboard({
   searchParams,
@@ -8,16 +9,19 @@ export default async function Dashboard({
   searchParams?: { query: string; entries: number; page: string };
 }) {
   const query = searchParams?.query || "";
-  const entries = searchParams?.entries || "";
 
   console.log("query===>", query);
-  console.log("entries===>", entries);
 
   const data = await serverApiCall("/products");
 
+  const modifiedData = data.map((row: any) => ({
+    ...row,
+    actions: <Actions />,
+  }));
+  
   return (
     <>
-      <DataGrid headers={headers} data={data} itemsPerPage={10} />
+      <DataGrid headers={headers} data={modifiedData} itemsPerPage={10} />
     </>
   );
 }

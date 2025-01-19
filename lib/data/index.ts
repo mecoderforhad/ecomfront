@@ -9,5 +9,6 @@ export const headers = [
   "categoryId",
   "status",
   "createdAt", 
-  "updatedAt"
+  "updatedAt", 
+  "actions"
 ];

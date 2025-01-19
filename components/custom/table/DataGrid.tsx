@@ -51,7 +51,11 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
           onChange={handleSearchChange}
           defaultValue={searchParams.get("query")?.toString()}
         />
-        <Select id="entries" onChange={handleEntriesChange}>
+        <Select
+          id="entries"
+          defaultValue={searchParams.get("entries")?.toString()}
+          onChange={handleEntriesChange}
+        >
           <option>10</option>
           <option>20</option>
           <option>30</option>
