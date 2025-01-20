@@ -1,10 +1,19 @@
 "use client";
 
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { DarkModeSwitcher } from "../dark-mode/DarkModeSwitch";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { useEffect, useState } from "react";
 
 export function TopNavBar() {
+  const [user, setUser] = useState<any>({});
+  const session: any = useSession();
+
+  useEffect(() => {
+    setUser(session?.data?.user);
+  }, [session.data]);
+
   const handleLogout = async () => {
     try {
       await signOut();
@@ -35,28 +44,24 @@ export function TopNavBar() {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
+            <span className="block text-sm">{user?.name}</span>
             <span className="block truncate text-sm font-medium">
-              name@flowbite.com
+              {user?.email}
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
-      <Navbar.Collapse>
-        <Navbar.Link href="#" active>
-          Home
-        </Navbar.Link>
-        <Navbar.Link href="#">About</Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
-      </Navbar.Collapse>
+      <div className={`py-3 flex`}>
+        <HiMenuAlt3
+          size={26}
+          className="cursor-pointer hidden md:block"
+          // onClick={() => setOpen(!open)}
+        />
+      </div>
     </Navbar>
   );
 }

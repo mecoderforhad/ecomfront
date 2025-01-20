@@ -48,12 +48,6 @@ const SideBar = () => {
 
   return (
     <>
-      <HiMenuAlt3
-        size={26}
-        className="cursor-pointer md:hidden"
-        onClick={() => setShowSidebar(!showSidebar)}
-      />
-
       {/* Sidebar */}
       <div
         className={`bg-white text-gray-800 shadow-md dark:bg-gray-800 dark:text-gray-50 min-h-screen ${
@@ -63,17 +57,7 @@ const SideBar = () => {
         } md:block text-gray-100`}
       >
         {/* Sidebar Toggle Button */}
-        <div
-          className={`py-3 flex ${
-            open ? "justify-end m-2" : "justify-center m-2"
-          }`}
-        >
-          <HiMenuAlt3
-            size={26}
-            className="cursor-pointer hidden md:block"
-            onClick={() => setOpen(!open)}
-          />
-        </div>
+        
 
         {/* Sidebar Menu */}
         <div className="mt-4 flex flex-col gap-4 relative">
