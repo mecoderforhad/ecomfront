@@ -1,5 +1,5 @@
 'use client';
-import { addMenu } from '@/lib/store/features/createMenuSlice';
+import { addMenu } from '@/lib/store/features/menusSlice';
 import { AppStore, makeStore } from '@/lib/store/store';
 import React, { ReactNode, useRef } from 'react';
 import { Provider } from 'react-redux';

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
 import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
@@ -13,9 +12,10 @@ import {
   FiChevronRight,
   FiChevronDown,
 } from "react-icons/fi";
+import { useAppSelector } from "@/lib/store/hooks";
 
 const SideBar = () => {
-  const [open, setOpen] = useState(false); // For large screen toggle
+  const open = useAppSelector((state)=> state.menusReducer.isOpenSidebar)
   const [showSidebar, setShowSidebar] = useState(true); // For small screen toggle
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const [expandedSubMenu, setExpandedSubMenu] = useState<string | null>(null);
@@ -50,7 +50,7 @@ const SideBar = () => {
     <>
       {/* Sidebar */}
       <div
-        className={`bg-white text-gray-800 shadow-md dark:bg-gray-800 dark:text-gray-50 min-h-screen ${
+        className={`bg-white text-gray-800 shadow-md dark:bg-gray-800 dark:text-gray-50  min-h-screen ${
           open ? "w-60" : "w-14"
         } md:static ${
           showSidebar ? "fixed z-50" : "hidden"
