@@ -12,7 +12,7 @@ export default function MainLayout({
       <TopNavBar />
       <div className="flex">
         <SideBar />
-        <div className="flex-1 p-5">
+        <div className="flex-1 p-5 w-3/4">
           {children}
         </div>
       </div>

@@ -45,12 +45,8 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
   };
 
   return (
-    <Card className="w-full">
-      <div className="flex items-center justify-between gap-5 w-1/4">
-        <InputField
-          onChange={handleSearchChange}
-          defaultValue={searchParams.get("query")?.toString()}
-        />
+    <Card>
+      <div className="flex items-center justify-between gap-5">
         <Select
           id="entries"
           defaultValue={searchParams.get("entries")?.toString()}
@@ -61,9 +57,13 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
           <option>30</option>
           <option>40</option>
         </Select>
+        <InputField
+          onChange={handleSearchChange}
+          defaultValue={searchParams.get("query")?.toString()}
+        />
       </div>
-      <div>
-        <Table hoverable>
+      <div className="overflow-auto">
+        <Table striped>
           <Table.Head>
             <Table.HeadCell className="p-4">
               <Checkbox />
@@ -93,6 +93,8 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
             ))}
           </Table.Body>
         </Table>
+      </div>
+      <div className="flex justify-end">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
