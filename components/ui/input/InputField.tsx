@@ -16,7 +16,7 @@ export default function InputField({ onChange, defaultValue }: InputFieldProps) 
             name="query"
             defaultValue={defaultValue}
             id="search"
-            className="block min-w-0 grow py-2 pl-3 pr-2.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none rounded-l-md sm:text-sm/6 border-none"
+            className="block min-w-0 grow py-2 pl-3 pr-2.5 text-base text-gray-900 dark:bg-gray-800 placeholder:text-gray-400 focus:outline-none rounded-l-md sm:text-sm/6 border-none"
             placeholder="Search..."
             onChange={onChange}
           />

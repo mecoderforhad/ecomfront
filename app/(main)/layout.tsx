@@ -9,10 +9,10 @@ export default function MainLayout({
 }) {
   return (
     <>
-      <TopNavBar />
       <div className="flex">
         <SideBar />
-        <div className="flex-1 p-5 w-3/4">
+        <div className="flex-1 px-5 w-3/4">
+          <TopNavBar />
           {children}
         </div>
       </div>

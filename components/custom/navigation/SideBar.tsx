@@ -56,11 +56,11 @@ const SideBar = () => {
 
       {/* Sidebar */}
       <div
-        className={`bg-slate-900 min-h-screen ${
+        className={`bg-white text-gray-800 shadow-md dark:bg-gray-800 dark:text-gray-50 min-h-screen ${
           open ? "w-60" : "w-14"
-        } md:relative md:static ${
+        } md:static ${
           showSidebar ? "fixed z-50" : "hidden"
-        } md:block duration-500 text-gray-100`}
+        } md:block text-gray-100`}
       >
         {/* Sidebar Toggle Button */}
         <div
@@ -85,7 +85,7 @@ const SideBar = () => {
               onMouseLeave={() => !open && setExpandedMenu(null)}
             >
               <div
-                className="flex items-center justify-start gap-3.5 px-4 py-2 hover:bg-slate-800 cursor-pointer"
+                className="flex items-center justify-start gap-3.5 px-4 py-2 hover:bg-slate-100 dark:bg-slate-800 cursor-pointer"
                 onClick={() =>
                   setExpandedMenu(expandedMenu === menu.name ? null : menu.name)
                 }
@@ -97,7 +97,7 @@ const SideBar = () => {
                   style={{
                     transitionDelay: `${i + 3}00ms`,
                   }}
-                  className={`whitespace-pre text-base duration-500 ${
+                  className={`whitespace-pre text-base ${
                     !open && "opacity-0 translate-x-28 overflow-hidden"
                   }`}
                 >
@@ -128,7 +128,7 @@ const SideBar = () => {
                       onMouseLeave={() => !open && setExpandedSubMenu(null)}
                     >
                       <div
-                        className="flex justify-between items-center px-4 py-2 hover:bg-slate-600 cursor-pointer"
+                        className="flex justify-between items-center px-4 py-2 bg-white text-slate-800 dark:bg-slate-800 dark:text-white cursor-pointer"
                         onClick={() =>
                           setExpandedSubMenu(
                             expandedSubMenu === subMenu.name
@@ -158,7 +158,7 @@ const SideBar = () => {
                               <a
                                 key={k}
                                 href={subSubMenu.link}
-                                className="block px-4 py-2 hover:bg-slate-600"
+                                className="block px-4 py-2 bg-white text-slate-800 dark:bg-slate-800 dark:text-white"
                               >
                                 {subSubMenu.name}
                               </a>
@@ -172,7 +172,7 @@ const SideBar = () => {
 
               {/* Show main menu name on hover if there is no sub-menu */}
               {!menu.subMenu && !open && (
-                <div className="absolute left-full top-0 bg-slate-800 px-4 py-2 text-white shadow-lg group-hover:block hidden">
+                <div className="absolute left-full top-0 bg-white text-slate-800 dark:bg-slate-800 px-4 py-2 dark:text-white shadow-lg group-hover:block  hidden">
                   {menu.name}
                 </div>
               )}
