@@ -1,8 +1,7 @@
 "use client";
 
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { Avatar, DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
 import { signOut, useSession } from "next-auth/react";
-import { DarkModeSwitcher } from "../dark-mode/DarkModeSwitch";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { toggleSidebar } from "@/lib/store/features/menusSlice";
@@ -27,13 +26,9 @@ export function TopNavBar() {
 
   return (
     <Navbar fluid rounded>
-      {/* <Navbar.Brand href="https://flowbite-react.com">
-        <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
-      </Navbar.Brand> */}
       <div className="flex md:order-2">
         <div className="px-2">
-          <DarkModeSwitcher />
+          <DarkThemeToggle />
         </div>
         <Dropdown
           arrowIcon={false}
@@ -61,7 +56,7 @@ export function TopNavBar() {
       <div className={`py-3 flex`}>
         <HiMenuAlt3
           size={26}
-          className="cursor-pointer hidden md:block"
+          className="cursor-pointer hidden md:block dark:text-white"
           onClick={() => dispatch(toggleSidebar())}
         />
       </div>

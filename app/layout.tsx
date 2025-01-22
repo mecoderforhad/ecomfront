@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { NextAuthProvider } from "./(auth)/signin/session";
 import StoreProvider from "./StoreProvider";
+import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,10 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-gray-800`}
       >
+        <ThemeModeScript />
         <StoreProvider>
           <Toaster position="top-right" reverseOrder={false} />
           <NextAuthProvider>{children}</NextAuthProvider>
