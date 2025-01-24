@@ -1,5 +1,4 @@
-// import SideBar from "@/components/custom/navigation/SideBar";
-import SideBar2 from "@/components/custom/navigation/Sidebar2";
+import SideBar from "@/components/custom/navigation/SideBar";
 import { TopNavBar } from "@/components/custom/navigation/TopNavbar";
 import { cookies } from "next/headers";
 
@@ -19,9 +18,8 @@ export default async function MainLayout({
   return (
     <>
       <div className="flex">
-        {/* <SideBar /> */}
         <div className="hidden md:block">
-          <SideBar2 initialState={sidebarState} />
+          <SideBar initialState={sidebarState} />
         </div>
         <div className="flex-1 px-5 w-3/4">
           <TopNavBar />
