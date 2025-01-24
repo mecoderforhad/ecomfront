@@ -4,13 +4,10 @@ import { Avatar, DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
 import { signOut, useSession } from "next-auth/react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { toggleSidebar } from "@/lib/store/features/menusSlice";
-import { useAppDispatch } from "@/lib/store/hooks";
 
 export function TopNavBar() {
   const [user, setUser] = useState<any>({});
   const session: any = useSession();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setUser(session?.data?.user);
@@ -57,7 +54,6 @@ export function TopNavBar() {
         <HiMenuAlt3
           size={26}
           className="cursor-pointer hidden md:block dark:text-white"
-          onClick={() => dispatch(toggleSidebar())}
         />
       </div>
     </Navbar>

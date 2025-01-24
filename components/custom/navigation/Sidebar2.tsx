@@ -1,28 +1,50 @@
 "use client";
 
-import { useAppSelector } from "@/lib/store/hooks";
+import { setSidebarState } from "@/lib/actions/sidebar";
 import { Sidebar } from "flowbite-react";
-import { HiChartPie, HiInbox, HiShoppingBag, HiUser } from "react-icons/hi";
+import { useState } from "react";
+import {
+  HiChartPie,
+  HiInbox,
+  HiMenuAlt3,
+  HiShoppingBag,
+  HiUser,
+} from "react-icons/hi";
 
-export default function SideBar2() {
-  const toggleSidebar = useAppSelector(
-    (state) => state.menusReducer.isOpenSidebar
-  );
+interface SidebarProps {
+  initialState: "collapsed" | "expanded";
+}
+
+export default function SideBar2({ initialState }: SidebarProps) {
+  const [state, setState] = useState<"collapsed" | "expanded">(initialState);
+
+  const toggleSidebar = async () => {
+    const newState = state === "collapsed" ? "expanded" : "collapsed";
+    setState(newState);
+    await setSidebarState(newState);
+  };
 
   return (
     <div className="min-h-screen shadow-md">
       <Sidebar
-        collapsed={toggleSidebar ? false : true}
+        collapsed={state === "collapsed" ? false : true}
         aria-label="Sidebar with multi-level dropdown example"
       >
-        <Sidebar.Logo
-          href="#"
-          img="/logo.png"
-          imgAlt="Flowbite logo"
-          className="py-2"
-        >
-          Ecommerce
-        </Sidebar.Logo>
+        <div className={`${state === "expanded" ? "block" : "flex items-center justify-between"}`}>
+          <Sidebar.Logo
+            href="#"
+            img="/logo.png"
+            imgAlt="Flowbite logo"
+            className="py-2"
+          >
+            Ecommerce
+          </Sidebar.Logo>
+          <HiMenuAlt3
+            size={26}
+            className="cursor-pointer m-2 mb-5 hidden md:block dark:text-white"
+            onClick={toggleSidebar}
+          />
+        </div>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             <Sidebar.Item href="#" icon={HiChartPie}>

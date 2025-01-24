@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface CartState {
   menus: string[];
-  isOpenSidebar: boolean;
+  isOpenSidebar: string;
 }
 
 const initialState: CartState = {
   menus: [],
-  isOpenSidebar: false,
+  isOpenSidebar: "collapsed",
 };
 
 export const menusSlice = createSlice({
@@ -17,13 +17,14 @@ export const menusSlice = createSlice({
     addMenu: (state, action) => {
       state.menus.push(action.payload);
     },
-    toggleSidebar(state) {
-      state.isOpenSidebar = !state.isOpenSidebar;
+    toggleSidebarState(state, action) {
+      console.log("Action===========>", action.payload)
+      state.isOpenSidebar = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addMenu, toggleSidebar } = menusSlice.actions;
+export const { addMenu, toggleSidebarState } = menusSlice.actions;
 
 export default menusSlice.reducer;
