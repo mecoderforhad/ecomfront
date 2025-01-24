@@ -25,7 +25,7 @@ export default function SideBar2({ initialState }: SidebarProps) {
   };
 
   return (
-    <div className="min-h-screen shadow-md">
+    <div className="h-full shadow-md">
       <Sidebar
         collapsed={state === "collapsed" ? false : true}
         aria-label="Sidebar with multi-level dropdown example"
