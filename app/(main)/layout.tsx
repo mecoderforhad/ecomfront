@@ -1,5 +1,6 @@
 import SideBar from "@/components/custom/navigation/SideBar";
 import { TopNavBar } from "@/components/custom/navigation/TopNavbar";
+import { serverApiCall } from "@/utils/serverApiCall";
 import { cookies } from "next/headers";
 
 import React from "react";
@@ -15,14 +16,18 @@ export default async function MainLayout({
       | "collapsed"
       | "expanded") || "expanded";
 
+  const data = await serverApiCall("/menus/list");
+
+  console.log("Menus--------->", data)
+
   return (
     <>
       <div className="flex">
         <div className="hidden md:block">
-          <SideBar initialState={sidebarState} />
+          <SideBar initialState={sidebarState} menusData={data}/>
         </div>
         <div className="flex-1 px-5 w-3/4">
-          <TopNavBar />
+          <TopNavBar menusData={data}/>
           {children}
         </div>
       </div>

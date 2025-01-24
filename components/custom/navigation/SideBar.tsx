@@ -3,19 +3,21 @@
 import { setSidebarState } from "@/lib/actions/sidebar";
 import { Sidebar } from "flowbite-react";
 import { useState } from "react";
-import {
-  HiChartPie,
-  HiInbox,
-  HiMenuAlt3,
-  HiShoppingBag,
-  HiUser,
-} from "react-icons/hi";
+import { HiChartPie, HiMenuAlt3 } from "react-icons/hi";
 
 interface SidebarProps {
   initialState: "collapsed" | "expanded";
+  menusData: {
+    id: number;
+    title: string;
+    submenus?: {
+      id: number;
+      title: string;
+    }[];
+  }[];
 }
 
-export default function SideBar({ initialState }: SidebarProps) {
+export default function SideBar({ initialState, menusData }: SidebarProps) {
   const [state, setState] = useState<"collapsed" | "expanded">(initialState);
 
   const toggleSidebar = async () => {
@@ -30,7 +32,11 @@ export default function SideBar({ initialState }: SidebarProps) {
         collapsed={state === "collapsed" ? false : true}
         aria-label="Sidebar with multi-level dropdown example"
       >
-        <div className={`${state === "expanded" ? "block" : "flex items-center justify-between"}`}>
+        <div
+          className={`${
+            state === "expanded" ? "block" : "flex items-center justify-between"
+          }`}
+        >
           <Sidebar.Logo
             href="#"
             img="/logo.png"
@@ -47,24 +53,25 @@ export default function SideBar({ initialState }: SidebarProps) {
         </div>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <Sidebar.Item href="#" icon={HiChartPie}>
-              Dashboard
-            </Sidebar.Item>
-            <Sidebar.Collapse icon={HiShoppingBag} label="E-commerce">
-              <Sidebar.Item href="#">Products</Sidebar.Item>
-              <Sidebar.Item href="#">Sales</Sidebar.Item>
-              <Sidebar.Item href="#">Refunds</Sidebar.Item>
-              <Sidebar.Item href="#">Shipping</Sidebar.Item>
-            </Sidebar.Collapse>
-            <Sidebar.Item href="#" icon={HiInbox}>
-              Inbox
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiUser}>
-              Users
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiShoppingBag}>
-              Products
-            </Sidebar.Item>
+            {menusData?.map((menu) =>
+              menu?.submenus && menu.submenus.length > 0 ? (
+                <Sidebar.Collapse
+                  key={menu?.id}
+                  icon={HiChartPie}
+                  label={menu?.title}
+                >
+                  {menu?.submenus?.map((submenu) => (
+                    <Sidebar.Item key={submenu?.id} href="#">
+                      {submenu?.title}
+                    </Sidebar.Item>
+                  ))}
+                </Sidebar.Collapse>
+              ) : (
+                <Sidebar.Item key={menu?.id} href="#" icon={HiChartPie}>
+                  {menu?.title}
+                </Sidebar.Item>
+              )
+            )}
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>

@@ -11,14 +11,25 @@ import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { MdShoppingCart } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
-import { MdDashboard } from "react-icons/md";
 
+interface TobbarProps {
+  menusData: {
+    id: number;
+    title: string;
+    submenus?: {
+      id: number;
+      title: string;
+    }[];
+  }[];
+}
 
-
-export function TopNavBar() {
+export function TopNavBar({ menusData }: TobbarProps) {
   const [user, setUser] = useState<any>({});
   const [openModal, setOpenModal] = useState(false);
-  const [openSubmenus, setOpenSubmenus] = useState(false);
+
+  const [openSubmenus, setOpenSubmenus] = useState<{ [key: number]: boolean }>(
+    {}
+  );
   const session: any = useSession();
 
   useEffect(() => {
@@ -33,7 +44,12 @@ export function TopNavBar() {
     }
   };
 
-  const handleDropdown = ()=>setOpenSubmenus(!openSubmenus)
+  const handleDropdown = (menuId: number) => {
+    setOpenSubmenus((prevState) => ({
+      ...prevState,
+      [menuId]: !prevState[menuId],
+    }));
+  };
 
   return (
     <Navbar fluid rounded>
@@ -69,60 +85,66 @@ export function TopNavBar() {
         </Dropdown>
         <Navbar.Toggle onClick={() => setOpenModal(true)} />
       </div>
-      <Modal className="md:hidden" dismissible show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal
+        className="md:hidden"
+        dismissible
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+      >
         <Modal.Header>Ecommarce</Modal.Header>
         <Modal.Body>
           <div className="py-4 overflow-y-auto">
             <ul className="space-y-2 font-medium">
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                >
-                  <MdDashboard />
-                  <span className="ms-3">Dashboard</span>
-                </a>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  aria-controls="dropdown-example"
-                  onClick={handleDropdown}
-                >
-                  <MdShoppingCart /> 
-                  <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
-                    E-commerce
-                  </span>
-                  <MdArrowForwardIos />
-                </button>
-                <ul id="dropdown-example" className={`${openSubmenus? "" : "hidden py-2 space-y-2"}`}>
-                  <li>
-                    <a
-                      href="#"
-                      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              {menusData?.map((menu) =>
+                menu?.submenus && menu.submenus.length > 0 ? (
+                  <li key={menu?.id}>
+                    <button
+                      type="button"
+                      className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      aria-controls={`dropdown-${menu?.id}`}
+                      aria-expanded={openSubmenus[menu?.id] ? "true" : "false"}
+                      onClick={() => handleDropdown(menu?.id)}
                     >
-                      Products
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      <MdShoppingCart />
+                      <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
+                        {menu?.title}
+                      </span>
+                      <MdArrowForwardIos />
+                    </button>
+                    <ul
+                      id={`dropdown-${menu?.id}`}
+                      className={`${
+                        openSubmenus[menu?.id]
+                          ? "block py-2 space-y-2"
+                          : "hidden"
+                      }`}
                     >
-                      Billing
-                    </a>
+                      {menu?.submenus?.map((submenu) => (
+                        <li key={submenu?.id}>
+                          <a
+                            href="#"
+                            className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                          >
+                            {submenu?.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                ) : (
+                  <li key={menu?.id}>
+                    <button
+                      type="button"
+                      className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
-                      Invoice
-                    </a>
+                      <MdShoppingCart />
+                      <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
+                        {menu?.title}
+                      </span>
+                    </button>
                   </li>
-                </ul>
-              </li>
+                )
+              )}
             </ul>
           </div>
         </Modal.Body>
