@@ -15,15 +15,21 @@ const ThemeContext = createContext<ThemeContextProps>({
   toggleMode: () => {},
 });
 
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mode, setMode] = useState<Theme>("light");
+export const ThemeProvider = ({
+  children,
+  initialMode = "light",
+}: {
+  children: React.ReactNode;
+  initialMode?: Theme;
+}) => {
+  const [mode, setMode] = useState<Theme>(initialMode);
 
   useEffect(() => {
-    const cookieTheme = Cookies.get("theme") as Theme;
-    const localTheme = localStorage.getItem("theme") as Theme;
-    const initial = cookieTheme || localTheme || "light";
-    setMode(initial);
-  }, []);
+    const saved = localStorage.getItem("theme") as Theme;
+    if (saved && saved !== mode) {
+      setMode(saved);
+    }
+  }, [mode]);
 
   const toggleMode = () => {
     const newMode = mode === "light" ? "dark" : "light";
