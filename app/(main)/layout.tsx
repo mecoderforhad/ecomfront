@@ -16,17 +16,17 @@ export default async function MainLayout({
       | "collapsed"
       | "expanded") || "expanded";
 
-  const data = await serverApiCall("/menus/list") || [];
+  const data = (await serverApiCall("/menus/list")) || [];
 
   return (
     <>
       <div className="flex">
         <div className="hidden md:block">
-          <SideBar initialState={sidebarState} menusData={data}/>
+          <SideBar initialState={sidebarState} menusData={data} />
         </div>
-        <div className="flex-1 px-5 w-3/4">
-          <TopNavBar menusData={data}/>
-          {children}
+        <div className="flex-1">
+          <TopNavBar menusData={data} />
+          <div className="p-10">{children}</div>
         </div>
       </div>
     </>

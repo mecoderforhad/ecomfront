@@ -36,8 +36,8 @@ export default async function Dashboard(props: {
   }));
 
   return (
-    <>
+    <div>
       <DataGrid headers={headers} data={modifiedData} itemsPerPage={10} />
-    </>
+    </div>
   );
 }

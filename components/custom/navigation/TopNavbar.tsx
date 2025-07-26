@@ -26,6 +26,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useSession, signOut } from "next-auth/react";
 import ThemeToggleButton from "@/components/ui/button/ThemeToggleButton";
+import Cookies from "js-cookie";
 
 interface TopbarProps {
   menusData: {
@@ -67,13 +68,29 @@ export function TopNavBar({ menusData }: TopbarProps) {
     setOpenSubmenus((prev) => ({ ...prev, [menuId]: !prev[menuId] }));
   };
 
+  const sidebarState = Cookies.get("sidebarState");
+
   return (
     <>
-      <AppBar position="static" color="default" elevation={1}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Typography variant="h6" noWrap>
-            
-          </Typography>
+      <AppBar
+        component="nav"
+        position="static"
+        color="transparent"
+        elevation={0}
+      >
+        <Toolbar
+          sx={{
+            justifyContent:
+              sidebarState !== "expanded" ? "space-between" : "flex-end",
+          }}
+        >
+          {sidebarState !== "expanded" ? (
+            <Typography variant="h6" noWrap>
+              Ecommerce
+            </Typography>
+          ) : (
+            ""
+          )}
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <ThemeToggleButton />
