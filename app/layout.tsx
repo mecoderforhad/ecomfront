@@ -5,9 +5,9 @@ import { NextAuthProvider } from "./(auth)/signin/session";
 import StoreProvider from "./StoreProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { Roboto } from "next/font/google";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "./context/ThemeContext";
+import AppTheme from "@/components/custom/AppTheme";
 import "./globals.css";
-import theme from "./theme";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -41,12 +41,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-gray-800`}
       >
-        <AppRouterCacheProvider options={{ key: "css",  enableCssLayer: true}}>
-          <ThemeProvider theme={theme}>
-            <StoreProvider>
-              <Toaster position="top-right" reverseOrder={false} />
-              <NextAuthProvider>{children}</NextAuthProvider>
-            </StoreProvider>
+        <AppRouterCacheProvider options={{ key: "css", enableCssLayer: true }}>
+          <ThemeProvider>
+            <AppTheme>
+              <StoreProvider>
+                <Toaster position="top-right" reverseOrder={false} />
+                <NextAuthProvider>{children}</NextAuthProvider>
+              </StoreProvider>
+            </AppTheme>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

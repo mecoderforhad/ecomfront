@@ -17,10 +17,15 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { MdShoppingCart, MdArrowForwardIos, MdLogout, MdSettings } from "react-icons/md";
+import {
+  MdShoppingCart,
+  MdArrowForwardIos,
+  MdLogout,
+  MdSettings,
+} from "react-icons/md";
 import MenuIcon from "@mui/icons-material/Menu";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { useSession, signOut } from "next-auth/react";
+import ThemeToggleButton from "@/components/ui/button/ThemeToggleButton";
 
 interface TopbarProps {
   menusData: {
@@ -37,7 +42,9 @@ export function TopNavBar({ menusData }: TopbarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [user, setUser] = useState<any>({});
-  const [openSubmenus, setOpenSubmenus] = useState<{ [key: number]: boolean }>({});
+  const [openSubmenus, setOpenSubmenus] = useState<{ [key: number]: boolean }>(
+    {}
+  );
   const session: any = useSession();
 
   useEffect(() => {
@@ -69,10 +76,7 @@ export function TopNavBar({ menusData }: TopbarProps) {
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <IconButton>
-              <Brightness4Icon />
-            </IconButton>
-
+            <ThemeToggleButton />
             <IconButton onClick={handleMenu}>
               <Avatar
                 alt={user?.name}
@@ -93,7 +97,11 @@ export function TopNavBar({ menusData }: TopbarProps) {
       </AppBar>
 
       {/* Avatar Menu */}
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
         <MenuItem disabled>
           <Box>
             <Typography variant="subtitle1">{user?.name}</Typography>
@@ -129,7 +137,9 @@ export function TopNavBar({ menusData }: TopbarProps) {
                     <ListItemText primary={menu.title} />
                     <MdArrowForwardIos
                       style={{
-                        transform: openSubmenus[menu.id] ? "rotate(90deg)" : "rotate(0deg)",
+                        transform: openSubmenus[menu.id]
+                          ? "rotate(90deg)"
+                          : "rotate(0deg)",
                         transition: "transform 0.2s",
                       }}
                     />
