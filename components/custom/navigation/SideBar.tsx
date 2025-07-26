@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-// import { useTheme } from '@mui/material/styles';
 import {
   Drawer,
   List,
@@ -73,7 +72,7 @@ export default function SideBar({ initialState, menusData }: SidebarProps) {
         >
           {sidebarOpen && (
             <Typography variant="h6" noWrap>
-              <img src="/logo.png" alt="logo" width={32} className="inline mr-2" />
+              {/* <img src="/logo.png" alt="logo" width={32} className="inline mr-2" /> */}
               Ecommerce
             </Typography>
           )}
@@ -84,12 +83,12 @@ export default function SideBar({ initialState, menusData }: SidebarProps) {
 
         <List>
           {menusData?.map((menu) => {
-            const hasSubmenus = menu?.submenus?.length;
+            const hasSubmenus = menu?.submenus?.length ? menu?.submenus?.length > 0 : false ;
             const isOpen = openMenus.includes(menu.id);
 
             return (
               <Box key={menu.id}>
-                <ListItemButton onClick={() => hasSubmenus ? toggleSubmenu(menu.id) : null}>
+                <ListItemButton onClick={() => toggleSubmenu(menu.id)}>
                   {sidebarOpen && <ListItemText primary={menu.title} />}
                   {hasSubmenus && (isOpen ? <ExpandLess /> : <ExpandMore />)}
                 </ListItemButton>

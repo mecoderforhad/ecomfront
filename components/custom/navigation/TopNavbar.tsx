@@ -72,7 +72,7 @@ export function TopNavBar({ menusData }: TopbarProps) {
       <AppBar position="static" color="default" elevation={1}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Typography variant="h6" noWrap>
-            Ecommerce
+            
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
