@@ -3,8 +3,18 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { NextAuthProvider } from "./(auth)/signin/session";
 import StoreProvider from "./StoreProvider";
-import { ThemeModeScript } from "flowbite-react";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { Roboto } from "next/font/google";
+import { ThemeProvider } from "@mui/material/styles";
 import "./globals.css";
+import theme from "./theme";
+
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,15 +37,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={roboto.variable}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-gray-800`}
       >
-        <ThemeModeScript />
-        <StoreProvider>
-          <Toaster position="top-right" reverseOrder={false} />
-          <NextAuthProvider>{children}</NextAuthProvider>
-        </StoreProvider>
+        <AppRouterCacheProvider options={{ key: "css",  enableCssLayer: true}}>
+          <ThemeProvider theme={theme}>
+            <StoreProvider>
+              <Toaster position="top-right" reverseOrder={false} />
+              <NextAuthProvider>{children}</NextAuthProvider>
+            </StoreProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

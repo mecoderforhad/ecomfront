@@ -57,7 +57,7 @@ const Signin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-indigo-200 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-linear-to-br from-indigo-100 via-white to-indigo-200 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md p-8 rounded-2xl bg-white/70 backdrop-blur-md shadow-xl border border-indigo-100">
         <h2 className="text-3xl font-bold text-center text-indigo-700">
           Welcome Back
@@ -80,7 +80,7 @@ const Signin = () => {
               type="email"
               autoComplete="email"
               required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-xs focus:outline-hidden focus:ring-2 focus:ring-indigo-500 bg-white"
             />
           </div>
 
@@ -105,7 +105,7 @@ const Signin = () => {
               type="password"
               autoComplete="current-password"
               required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-xs focus:outline-hidden focus:ring-2 focus:ring-indigo-500 bg-white"
             />
           </div>
 

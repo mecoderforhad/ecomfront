@@ -3,7 +3,7 @@ import { headers } from "@/lib/data";
 import { serverApiCall } from "@/utils/serverApiCall";
 import Actions from "../components/Actions";
 import { formatDate, shortenText } from "@/utils/format/formatter";
-import { Tooltip } from "flowbite-react";
+import Tooltip from '@mui/material/Tooltip';
 
 export default async function Dashboard(props: {
   searchParams?: Promise<{
@@ -20,10 +20,14 @@ export default async function Dashboard(props: {
 
   const modifiedData = data.map((row: any) => ({
     ...row,
-    id: <Tooltip content={row?.id}>{shortenText(row?.id, 8)}</Tooltip>,
+    id: (
+      <Tooltip title={row?.id}>
+        <span>{shortenText(row?.id, 8)}</span>
+      </Tooltip>
+    ),
     description: (
-      <Tooltip content={row?.description}>
-        {shortenText(row?.description, 20)}
+      <Tooltip title={row?.description}>
+        <span>{shortenText(row?.description, 20)}</span>
       </Tooltip>
     ),
     createdAt: formatDate(row?.createdAt),
