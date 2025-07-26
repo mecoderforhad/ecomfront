@@ -5,7 +5,6 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-// import Image from "next/image";
 
 const Signin = () => {
   const { data: session } = useSession();
@@ -15,8 +14,7 @@ const Signin = () => {
 
   useEffect(() => {
     if (session) {
-      const redirectTo = "/dashboard";
-      router.push(redirectTo);
+      router.push("/dashboard");
     }
   }, [session, router]);
 
@@ -28,10 +26,8 @@ const Signin = () => {
     const formData = new FormData(event.currentTarget as HTMLFormElement);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    const validatedFields = loginSchema.safeParse({
-      email: email,
-      password: password,
-    });
+
+    const validatedFields = loginSchema.safeParse({ email, password });
 
     if (!validatedFields.success) {
       const errors = validatedFields.error.flatten().fieldErrors;
@@ -61,91 +57,75 @@ const Signin = () => {
   };
 
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          {/* <Image
-            alt="Your Company"
-            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-            className="mx-auto h-10 w-auto"
-            width={100}
-            height={100}
-          /> */}
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-indigo-200 flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md p-8 rounded-2xl bg-white/70 backdrop-blur-md shadow-xl border border-indigo-100">
+        <h2 className="text-3xl font-bold text-center text-indigo-700">
+          Welcome Back
+        </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          Sign in to continue
+        </p>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleSubmit}>
-            <div>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between">
               <label
-                htmlFor="email"
-                className="block text-sm/6 font-medium text-gray-900"
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
               >
-                Email address
+                Password
               </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-            <div>
-              {errorMessages.length > 0 && (
-                <ul className="text-sm text-red-500 mt-3">
-                  {errorMessages.map((error, index) => (
-                    <li key={index}>{error}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 mt-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              <a
+                href="#"
+                className="text-sm font-medium text-indigo-600 hover:underline"
               >
-                {isLoading ? "Logging in..." : "Get Started"}
-              </button>
+                Forgot?
+              </a>
             </div>
-          </form>
-        </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+            />
+          </div>
+
+          {errorMessages.length > 0 && (
+            <ul className="text-sm text-red-500 list-disc pl-5 space-y-1">
+              {errorMessages.map((msg, idx) => (
+                <li key={idx}>{msg}</li>
+              ))}
+            </ul>
+          )}
+
+          <button
+            type="submit"
+            className="w-full py-2 px-4 text-sm font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors duration-300"
+          >
+            {isLoading ? "Signing in..." : "Sign In"}
+          </button>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
 

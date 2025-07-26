@@ -23,6 +23,7 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
     currentPage * itemsPerPage
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceSearch = useCallback(
     debounce((term: string, uniqueName: string) => {
       const params = new URLSearchParams(searchParams);
@@ -36,9 +37,9 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
     [searchParams, pathname, replace]
   );
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    debounceSearch(e.target.value, "query");
-  };
+  // const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   debounceSearch(e.target.value, "query");
+  // };
 
   const handleEntriesChange = (e: ChangeEvent<HTMLSelectElement>) => {
     debounceSearch(e.target.value, "entries");
@@ -58,8 +59,8 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
           <option>40</option>
         </Select>
         <InputField
-          onChange={handleSearchChange}
-          defaultValue={searchParams.get("query")?.toString()}
+          // onChange={handleSearchChange}
+          // defaultValue={searchParams.get("query")?.toString()}
         />
       </div>
       <div className="overflow-auto">
