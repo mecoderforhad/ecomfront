@@ -18,8 +18,6 @@ export default async function MainLayout({
 
   const data = (await serverApiCall("/menu/list")) || [];
 
-  console.log("menu data:", data);
-
   return (
     <>
       <div className="flex">

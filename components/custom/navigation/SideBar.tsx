@@ -15,6 +15,7 @@ import {
 import { HiMenuAlt3 } from "react-icons/hi";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import { useRouter } from "next/navigation";
 import { setSidebarState } from "@/lib/actions/sidebar";
 
 interface SidebarProps {
@@ -22,15 +23,18 @@ interface SidebarProps {
   menusData: {
     id: number;
     title: string;
+    slug: string;
     type: string;
     submenus?: {
       id: number;
       title: string;
+      slug: string;
     }[];
   }[];
 }
 
 export default function SideBar({ initialState, menusData }: SidebarProps) {
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(initialState === "expanded");
   const [openMenus, setOpenMenus] = useState<number[]>([]);
 
@@ -44,6 +48,10 @@ export default function SideBar({ initialState, menusData }: SidebarProps) {
     setOpenMenus((prev) =>
       prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
     );
+  };
+
+  const handleMenuClick = (slug: string) => {
+    router.push(`/${slug}`);
   };
 
   return (
@@ -73,7 +81,6 @@ export default function SideBar({ initialState, menusData }: SidebarProps) {
         >
           {sidebarOpen && (
             <Typography variant="h6" noWrap>
-              {/* <img src="/logo.png" alt="logo" width={32} className="inline mr-2" /> */}
               Ecommerce
             </Typography>
           )}
@@ -93,7 +100,11 @@ export default function SideBar({ initialState, menusData }: SidebarProps) {
 
               return (
                 <Box key={menu.id}>
-                  <ListItemButton onClick={() => toggleSubmenu(menu.id)}>
+                  <ListItemButton
+                    onClick={() =>
+                      hasSubmenus ? toggleSubmenu(menu.id) : handleMenuClick(menu.slug)
+                    }
+                  >
                     {sidebarOpen && <ListItemText primary={menu.title} />}
                     {hasSubmenus && (isOpen ? <ExpandLess /> : <ExpandMore />)}
                   </ListItemButton>
@@ -102,7 +113,11 @@ export default function SideBar({ initialState, menusData }: SidebarProps) {
                     <Collapse in={isOpen} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
                         {menu.submenus?.map((submenu) => (
-                          <ListItemButton key={submenu.id} sx={{ pl: 4 }}>
+                          <ListItemButton
+                            key={submenu.id}
+                            sx={{ pl: 4 }}
+                            onClick={() => handleMenuClick(submenu.slug)}
+                          >
                             <ListItemText primary={submenu.title} />
                           </ListItemButton>
                         ))}
