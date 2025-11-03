@@ -16,7 +16,9 @@ export default async function MainLayout({
       | "collapsed"
       | "expanded") || "expanded";
 
-  const data = (await serverApiCall("/menus/list")) || [];
+  const data = (await serverApiCall("/menu/list")) || [];
+
+  console.log("menu data:", data);
 
   return (
     <>

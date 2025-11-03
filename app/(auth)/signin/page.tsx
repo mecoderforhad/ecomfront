@@ -24,10 +24,10 @@ const Signin = () => {
     setErrorMessages([]);
 
     const formData = new FormData(event.currentTarget as HTMLFormElement);
-    const email = formData.get("email") as string;
+    const phone = formData.get("phone") as string;
     const password = formData.get("password") as string;
 
-    const validatedFields = loginSchema.safeParse({ email, password });
+    const validatedFields = loginSchema.safeParse({ phone, password });
 
     if (!validatedFields.success) {
       const errors = validatedFields.error.flatten().fieldErrors;
@@ -39,13 +39,15 @@ const Signin = () => {
 
     const result = await signIn("credentials", {
       redirect: false,
-      email,
+      phone,
       password,
     });
 
     setIsLoading(false);
 
-    if (result?.error === null) {
+    console.log("Sign-in result:", result);
+
+    if (!result?.error) {
       console.log("Login successful!");
     } else if (result?.error === "CredentialsSignin") {
       setErrorMessages(["Invalid credentials."]);
@@ -69,16 +71,16 @@ const Signin = () => {
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <div>
             <label
-              htmlFor="email"
+              htmlFor="phone"
               className="block text-sm font-medium text-gray-700"
             >
-              Email address
+              Phone Number
             </label>
             <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
+              id="phone"
+              name="phone"
+              type="text"
+              autoComplete="tel"
               required
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-xs focus:outline-hidden focus:ring-2 focus:ring-indigo-500 bg-white"
             />

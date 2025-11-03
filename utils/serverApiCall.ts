@@ -24,7 +24,7 @@ export const serverApiCall = async (
 
     // Configure the Axios request
     const config: AxiosRequestConfig = {
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}${endpoint}`,
+      url: `${process.env.BACKEND_URL}${endpoint}`,
       method,
       params,
       data: body,
