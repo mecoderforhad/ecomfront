@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import {
   Box,
   Button,
@@ -19,7 +19,8 @@ import {
   Paper,
   TableContainer,
   CircularProgress,
-} from '@mui/material';
+} from "@mui/material";
+import toast from "react-hot-toast";
 
 interface Category {
   id: number;
@@ -32,70 +33,82 @@ export default function CategoryPage() {
   const { data: session } = useSession();
   const [categories, setCategories] = useState<Category[]>([]);
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [slug, setSlug] = useState('');
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   // Fetch categories
   const fetchCategories = async () => {
-    if (!session?.user?.token) return;
+    const token = (session?.user as any)?.token;
+    if (!token) return;
     try {
-      const res = await fetch('http://localhost:4000/api/menu/list', {
-        headers: { Authorization: `Bearer ${session.user.token}` },
+      const res = await fetch("http://localhost:4000/api/menu/list", {
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       setCategories(data);
     } catch (err) {
-      console.error('Failed to fetch categories', err);
+      console.error("Failed to fetch categories", err);
     }
   };
 
   useEffect(() => {
     fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   // Create category
   const handleCreate = async () => {
-    if (!session?.user?.token) return;
+    const token = (session?.user as any)?.token;
+    if (!token) return;
     setLoading(true);
-    setMessage('');
+    setMessage("");
 
     try {
-      const res = await fetch('http://localhost:4000/api/menu/create', {
-        method: 'POST',
+      const res = await fetch("http://localhost:4000/api/menu/create", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.user.token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, slug, type: 'CATEGORY' }),
+        body: JSON.stringify({ title, slug, type: "CATEGORY" }),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.message || 'Failed to create category');
+        throw new Error(errorData.message || "Failed to create category");
       }
 
-      setMessage('Category created successfully!');
-      setTitle('');
-      setSlug('');
+      toast.success("Category created successfully!");
+      setTitle("");
+      setSlug("");
       setOpen(false);
       fetchCategories();
     } catch (err: any) {
-      setMessage(err.message);
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Box sx={{ p: 4, maxWidth: '900px', mx: 'auto' }}>
+    <Box sx={{ p: 4, maxWidth: "900px", mx: "auto" }}>
       {/* Header */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={4}
+      >
         <Typography variant="h4" fontWeight="bold">
           Categories
         </Typography>
-        <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpen(true)}
+        >
           Create Category
         </Button>
       </Box>
@@ -125,7 +138,12 @@ export default function CategoryPage() {
       </TableContainer>
 
       {/* Modal */}
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogTitle>Create Category</DialogTitle>
         <DialogContent dividers>
           <Box display="flex" flexDirection="column" gap={2} mt={1}>
@@ -144,7 +162,12 @@ export default function CategoryPage() {
               required
             />
             {message && (
-              <Typography color={message.includes('successfully') ? 'success.main' : 'error'} variant="body2">
+              <Typography
+                color={
+                  message.includes("successfully") ? "success.main" : "error"
+                }
+                variant="body2"
+              >
                 {message}
               </Typography>
             )}
@@ -154,8 +177,17 @@ export default function CategoryPage() {
           <Button onClick={() => setOpen(false)} color="inherit">
             Cancel
           </Button>
-          <Button onClick={handleCreate} variant="contained" color="primary" disabled={loading}>
-            {loading ? <CircularProgress size={24} color="inherit" /> : 'Create'}
+          <Button
+            onClick={handleCreate}
+            variant="contained"
+            color="primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Create"
+            )}
           </Button>
         </DialogActions>
       </Dialog>

@@ -48,7 +48,7 @@ const Signin = () => {
     console.log("Sign-in result:", result);
 
     if (!result?.error) {
-      console.log("Login successful!");
+      toast.success("Login successful!")
     } else if (result?.error === "CredentialsSignin") {
       setErrorMessages(["Invalid credentials."]);
     } else if (result?.error === "Configuration") {

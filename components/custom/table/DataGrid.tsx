@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, ChangeEvent } from "react";
+import React, { useState, useCallback } from "react";
 import debounce from "lodash/debounce";
 import {
   Card,
@@ -38,6 +38,7 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
     currentPage * itemsPerPage
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceSearch = useCallback(
     debounce((term: string, uniqueName: string) => {
       const params = new URLSearchParams(searchParams);
@@ -51,9 +52,9 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
     [searchParams, pathname, replace]
   );
 
-  const handleEntriesChange = (e: ChangeEvent<{ value: unknown }>) => {
-    debounceSearch(e.target.value as string, "entries");
-  };
+  // const handleEntriesChange = (e: ChangeEvent<{ value: unknown }>) => {
+  //   debounceSearch(e.target.value as string, "entries");
+  // };
 
   return (
     <Card variant="outlined">
@@ -64,7 +65,7 @@ const DataGrid: React.FC<DataGridProps> = ({ headers, data, itemsPerPage }) => {
             <Select
               labelId="entries-label"
               defaultValue={searchParams.get("entries")?.toString() || "10"}
-              onChange={handleEntriesChange}
+              // onChange={handleEntriesChange}
               label="Entries"
             >
               {[10, 20, 30, 40].map((val) => (
